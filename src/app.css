@@ -1,0 +1,89 @@
+@import 'tailwindcss';
+
+/*
+  ── Victor Serif — brand typeface ────────────────────────────────────────
+  Drop VictorSerif-70Bold.woff2 / .woff into /static/fonts.
+*/
+@font-face {
+	font-family: 'Victor Serif';
+	src:
+		url('/fonts/VictorSerif-70Bold.woff2') format('woff2'),
+		url('/fonts/VictorSerif-70Bold.woff') format('woff');
+	font-weight: 100 900;
+	font-style: normal;
+	font-display: swap;
+}
+
+@theme {
+	/* ── Karnavale brand palette (from the flyer) ─────────────────────────
+	   beige        → logos / big type          #FFFDD9
+	   lightorange  → dates, accents, hovers    #FDA719
+	   darkorange   → CTA, strong accents       #C03700
+	   purpleaccent → rays / secondary accent   #8B4A9E
+	   darkaccent   → site background (deep aubergine from the poster shadows)
+	*/
+	--color-beige: #fffdd9;
+	--color-lightorange: #fda719;
+	--color-darkorange: #c03700;
+	--color-purpleaccent: #8b4a9e;
+	--color-darkaccent: #1a0e24;
+
+	/* Alias kept from the Produktworld component patterns (hover accents). */
+	--color-lightaccent: #fda719;
+
+	/*
+	  Overriding standard Tailwind font variables ensures Victor Serif is
+	  applied globally across all elements.
+	*/
+	--font-sans: 'Victor Serif', Georgia, serif;
+	--font-serif: 'Victor Serif', Georgia, serif;
+	--font-display: 'Victor Serif', Georgia, serif;
+	--font-body: 'Victor Serif', Georgia, serif;
+}
+
+:root {
+	--beige: var(--color-beige);
+	--lightorange: var(--color-lightorange);
+	--darkorange: var(--color-darkorange);
+	--purpleaccent: var(--color-purpleaccent);
+	--darkaccent: var(--color-darkaccent);
+}
+
+html,
+body {
+	background: var(--color-darkaccent);
+	color: var(--color-beige);
+	font-family: var(--font-sans);
+	/* Brand type setting: Victor Serif is tracked at -7% everywhere. */
+	letter-spacing: -0.07em;
+	overflow-x: clip; /* was: hidden — hidden makes body a scroll container,
+	                     which silently breaks lenis.scrollTo() */
+	-webkit-font-smoothing: antialiased;
+}
+
+/* Lenis smooth-scroll styles */
+html.lenis,
+html.lenis body {
+	height: auto;
+}
+.lenis.lenis-smooth {
+	scroll-behavior: auto !important;
+}
+.lenis.lenis-smooth [data-lenis-prevent] {
+	overscroll-behavior: contain;
+}
+.lenis.lenis-stopped {
+	overflow: clip;
+}
+.lenis.lenis-smooth iframe {
+	pointer-events: none;
+}
+
+/*
+  ⚠ Laylo exception — the global `.lenis-smooth iframe { pointer-events:none }`
+  rule above exists so random embeds don't eat smooth-scroll, but the presale
+  form IS meant to be interacted with. Re-enable it explicitly.
+*/
+.lenis.lenis-smooth iframe.laylo-embed {
+	pointer-events: auto;
+}
